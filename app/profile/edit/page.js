@@ -97,13 +97,15 @@ export default function EditProfilePage() {
     else setMessage('保存しました！✅')
   }
 
-  const fields = [
-    { key: 'display_name', label: '表示名', type: 'text' },
+ const fields = [
+    { key: 'display_name', label: 'キャラ名', type: 'text' },
     { key: 'species', label: '種族', type: 'text' },
     { key: 'gender', label: '性別', type: 'text' },
     { key: 'personality', label: '性格', type: 'text' },
     { key: 'birthday', label: '誕生日', type: 'date' },
-  ]
+    { key: 'owner_name', label: 'オーナー名', type: 'text' },
+    { key: 'workshop', label: '出身工房', type: 'text' },
+]
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
@@ -179,16 +181,34 @@ export default function EditProfilePage() {
         {/* サブ画像 */}
         <div className="mb-6">
           <label className="block text-sm font-medium mb-2">サブ画像</label>
-          <div className="grid grid-cols-3 gap-2 mb-3">
+          <div className="space-y-3 mb-3">
             {subImages.map(img => (
-              <div key={img.id} className="relative">
-                <img src={img.image_url} className="w-full h-24 object-cover rounded-lg" />
-                <button
-                  onClick={() => handleSubImageDelete(img.id)}
-                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center"
-                >
-                  ×
-                </button>
+              <div key={img.id} className="border rounded-xl p-3">
+                <div className="flex gap-3 items-start">
+                  <img src={img.image_url} className="w-20 h-20 object-cover rounded-lg flex-shrink-0" />
+                  <div className="flex-1">
+                    <textarea
+                      placeholder="コメントを入力..."
+                      className="w-full border rounded-lg p-2 text-sm h-16 resize-none"
+                      value={img.caption || ''}
+                      onChange={e => {
+                        const updated = subImages.map(i =>
+                          i.id === img.id ? { ...i, caption: e.target.value } : i
+                        )
+                        setSubImages(updated)
+                      }}
+                      onBlur={async e => {
+                        await supabase.from('profile_images').update({ caption: e.target.value }).eq('id', img.id)
+                      }}
+                    />
+                  </div>
+                  <button
+                    onClick={() => handleSubImageDelete(img.id)}
+                    className="text-red-400 hover:text-red-600 text-sm flex-shrink-0"
+                  >
+                    ×
+                  </button>
+                </div>
               </div>
             ))}
           </div>

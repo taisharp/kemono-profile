@@ -90,7 +90,8 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState(null)
   const [events, setEvents] = useState([])
   const [subImages, setSubImages] = useState([])
-  const [selectedImage, setSelectedImage] = useState(null)
+  const [selectedImage, setSelectedImage] = useState(null) // { url, caption }
+
 
   useEffect(() => {
     const load = async () => {
@@ -168,6 +169,8 @@ export default function ProfilePage() {
               { label: '性格', value: profile.personality, emoji: '💫' },
               { label: '誕生日', value: profile.birthday, emoji: '🎂' },
               { label: '種族', value: profile.species, emoji: '🐾' },
+              { label: 'オーナー', value: profile.owner_name, emoji: '👤' },
+              { label: '出身工房', value: profile.workshop, emoji: '🏠' },
             ].filter(item => item.value).map(item => (
               <div key={item.label} className={`${t.tag} rounded-xl p-3`}>
                 <p className={`text-xs font-bold mb-1 ${t.tagLabel}`}>{item.emoji} {item.label}</p>
@@ -188,10 +191,15 @@ export default function ProfilePage() {
                 <div
                   key={img.id}
                   className="relative aspect-square overflow-hidden rounded-xl cursor-pointer group"
-                  onClick={() => setSelectedImage(img.image_url)}
+                  onClick={() => setSelectedImage({ url: img.image_url, caption: img.caption })}
                 >
                   <img src={img.image_url} className="w-full h-full object-cover transition group-hover:scale-110" />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition" />
+                  {img.caption && (
+                    <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-xs p-1 truncate">
+                      {img.caption}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -228,16 +236,31 @@ export default function ProfilePage() {
         )}
       </div>
 
-      {/* 画像拡大モーダル */}
-      {selectedImage && (
+    {/* 画像拡大モーダル */}
+    {selectedImage && (
+      <div
+        className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4"
+        onClick={() => setSelectedImage(null)}
+      >
         <div
-          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4"
-          onClick={() => setSelectedImage(null)}
+          className="max-w-lg w-full"
+          onClick={e => e.stopPropagation()}
         >
-          <img src={selectedImage} className="max-w-full max-h-full rounded-2xl shadow-2xl" />
-          <button className="absolute top-4 right-4 text-white text-3xl hover:text-gray-300">×</button>
+          <img src={selectedImage.url} className="w-full rounded-2xl shadow-2xl" />
+          {selectedImage.caption && (
+            <div className="bg-white/10 backdrop-blur text-white rounded-2xl p-4 mt-3">
+              <p className="text-sm leading-relaxed">{selectedImage.caption}</p>
+            </div>
+          )}
+          <button
+            onClick={() => setSelectedImage(null)}
+            className="mt-3 w-full text-white/60 hover:text-white text-sm"
+          >
+            閉じる
+          </button>
         </div>
-      )}
+      </div>
+    )}
     </div>
   )
 }
