@@ -3,6 +3,15 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 
+const TEMPLATES = [
+  { id: 'default', name: 'ノーマル', emoji: '🐾', bg: 'from-orange-50 to-pink-50', accent: 'orange' },
+  { id: 'forest', name: 'フォレスト', emoji: '🌿', bg: 'from-green-50 to-emerald-50', accent: 'green' },
+  { id: 'ocean', name: 'オーシャン', emoji: '🌊', bg: 'from-blue-50 to-cyan-50', accent: 'blue' },
+  { id: 'night', name: 'ナイト', emoji: '🌙', bg: 'from-purple-900 to-indigo-900', accent: 'purple' },
+  { id: 'cherry', name: 'さくら', emoji: '🌸', bg: 'from-pink-50 to-rose-50', accent: 'pink' },
+  { id: 'sunset', name: 'サンセット', emoji: '🌅', bg: 'from-orange-100 to-red-100', accent: 'red' },
+]
+
 export default function EditProfilePage() {
   const supabase = createClient()
   const router = useRouter()
@@ -16,6 +25,7 @@ export default function EditProfilePage() {
     species: '',
     icon_image_url: '',
     header_image_url: '',
+    template: 'default',
   })
   const [subImages, setSubImages] = useState([])
   const [message, setMessage] = useState('')
@@ -99,6 +109,27 @@ export default function EditProfilePage() {
     <div className="min-h-screen bg-gray-50 py-10 px-4">
       <div className="max-w-lg mx-auto bg-white rounded-xl shadow-md p-8">
         <h1 className="text-2xl font-bold mb-6">プロフィール編集 🐾</h1>
+
+        {/* テンプレート選択 */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium mb-3">🎨 テンプレート選択</label>
+          <div className="grid grid-cols-3 gap-2">
+            {TEMPLATES.map(t => (
+              <button
+                key={t.id}
+                onClick={() => setForm({ ...form, template: t.id })}
+                className={`p-3 rounded-xl border-2 transition text-center ${
+                  form.template === t.id
+                    ? 'border-orange-400 bg-orange-50'
+                    : 'border-gray-200 hover:border-orange-200'
+                }`}
+              >
+                <div className={`w-full h-8 rounded-lg bg-gradient-to-r ${t.bg} mb-2`} />
+                <p className="text-xs font-bold text-gray-600">{t.emoji} {t.name}</p>
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* ヘッダー画像 */}
         <div className="mb-4">
