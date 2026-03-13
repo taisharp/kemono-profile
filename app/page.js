@@ -29,7 +29,12 @@ export default function HomePage() {
     <div className="min-h-screen bg-orange-50 flex flex-col items-center justify-center px-4">
       <h1 className="text-4xl font-bold text-orange-500 mb-2">🐾 ケモノプロフィール</h1>
       <p className="text-gray-500 mb-10">あなたのケモノキャラを紹介しよう！</p>
-
+      <button
+      onClick={() => router.push('/profiles')}
+      className="w-full bg-pink-300 text-white rounded-lg p-3 font-bold hover:bg-pink-400 mb-3"
+    >
+      みんなのプロフィールを見る 🐾
+    </button>
       {user ? (
         <div className="bg-white rounded-xl shadow p-8 w-full max-w-sm text-center">
           <p className="text-gray-600 mb-6">ようこそ！<br/><span className="font-bold">{user.email}</span></p>
@@ -70,5 +75,6 @@ export default function HomePage() {
         </div>
       )}
     </div>
+    
   )
 }

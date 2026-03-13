@@ -17,6 +17,7 @@ export default function EditProfilePage() {
     icon_image_url: '',
     header_image_url: '',
   })
+  const [subImages, setSubImages] = useState([])
   const [message, setMessage] = useState('')
   const [uploading, setUploading] = useState(false)
 
@@ -27,6 +28,8 @@ export default function EditProfilePage() {
       setUserId(user.id)
       const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single()
       if (data) setForm(data)
+      const { data: images } = await supabase.from('profile_images').select('*').eq('profile_id', user.id).order('sort_order')
+      if (images) setSubImages(images)
     }
     load()
   }, [])
@@ -54,6 +57,28 @@ export default function EditProfilePage() {
     if (!file) return
     const url = await uploadImage(file, 'headers')
     if (url) setForm({ ...form, header_image_url: url })
+  }
+
+  const handleSubImageUpload = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    const url = await uploadImage(file, 'sub-images')
+    if (!url) return
+    const { data, error } = await supabase.from('profile_images').insert({
+      profile_id: userId,
+      image_url: url,
+      sort_order: subImages.length
+    }).select().single()
+    if (error) setMessage('エラー: ' + error.message)
+    else {
+      setSubImages([...subImages, data])
+      setMessage('サブ画像を追加しました！✅')
+    }
+  }
+
+  const handleSubImageDelete = async (id) => {
+    await supabase.from('profile_images').delete().eq('id', id)
+    setSubImages(subImages.filter(img => img.id !== id))
   }
 
   const handleSave = async () => {
@@ -118,6 +143,25 @@ export default function EditProfilePage() {
             value={form.bio || ''}
             onChange={e => setForm({ ...form, bio: e.target.value })}
           />
+        </div>
+
+        {/* サブ画像 */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium mb-2">サブ画像</label>
+          <div className="grid grid-cols-3 gap-2 mb-3">
+            {subImages.map(img => (
+              <div key={img.id} className="relative">
+                <img src={img.image_url} className="w-full h-24 object-cover rounded-lg" />
+                <button
+                  onClick={() => handleSubImageDelete(img.id)}
+                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+          <input type="file" accept="image/*" onChange={handleSubImageUpload} />
         </div>
 
         <button
