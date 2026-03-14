@@ -39,7 +39,7 @@ export default function EventsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4">
+    <div className="min-h-screen bg-gray-50 py-10 px-4 text-gray-900">
       <div className="max-w-lg mx-auto">
         <h1 className="text-2xl font-bold mb-6">参加予定イベント 🎪</h1>
 

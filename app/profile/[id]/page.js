@@ -6,7 +6,7 @@ import { useParams } from 'next/navigation'
 const TEMPLATES = {
   default: {
     bg: 'from-orange-50 to-pink-50',
-    card: 'bg-white',
+    card: 'bg-white text-gray-900',
     accent: 'bg-orange-100 text-orange-500',
     badge: 'bg-pink-100 text-pink-500',
     tag: 'bg-orange-50',
@@ -19,7 +19,7 @@ const TEMPLATES = {
   },
   forest: {
     bg: 'from-green-50 to-emerald-50',
-    card: 'bg-white',
+    card: 'bg-white text-gray-900',
     accent: 'bg-green-100 text-green-600',
     badge: 'bg-emerald-100 text-emerald-600',
     tag: 'bg-green-50',
@@ -32,7 +32,7 @@ const TEMPLATES = {
   },
   ocean: {
     bg: 'from-blue-50 to-cyan-50',
-    card: 'bg-white',
+    card: 'bg-white text-gray-900',
     accent: 'bg-blue-100 text-blue-500',
     badge: 'bg-cyan-100 text-cyan-600',
     tag: 'bg-blue-50',
@@ -58,7 +58,7 @@ const TEMPLATES = {
   },
   cherry: {
     bg: 'from-pink-50 to-rose-50',
-    card: 'bg-white',
+    card: 'bg-white text-gray-900',
     accent: 'bg-pink-100 text-pink-500',
     badge: 'bg-rose-100 text-rose-500',
     tag: 'bg-pink-50',
@@ -71,7 +71,7 @@ const TEMPLATES = {
   },
   sunset: {
     bg: 'from-orange-100 to-red-100',
-    card: 'bg-white',
+    card: 'bg-white text-gray-900',
     accent: 'bg-orange-100 text-orange-600',
     badge: 'bg-red-100 text-red-500',
     tag: 'bg-orange-50',
