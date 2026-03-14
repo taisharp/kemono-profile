@@ -44,6 +44,14 @@ export default function HomePage() {
           >
             プロフィールを編集する
           </button>
+
+          <button
+          onClick={() => router.push('/characters')}
+          className="w-full bg-orange-400 text-white rounded-lg p-3 font-bold hover:bg-orange-500 mb-3"
+        >
+          🐾 マイキャラを管理する
+        </button>
+
           <button
             onClick={() => router.push('/profile/events')}
             className="w-full bg-orange-300 text-white rounded-lg p-3 font-bold hover:bg-orange-400 mb-3"
@@ -62,6 +70,13 @@ export default function HomePage() {
           >
             ログアウト
           </button>
+          <button
+            onClick={() => router.push('/events')}
+            className="w-full bg-pink-400 text-white rounded-lg p-3 font-bold hover:bg-pink-500 mb-3"
+          >
+            🎪 イベント一覧を見る
+          </button>
+
         </div>
       ) : (
         <div className="bg-white rounded-xl shadow p-8 w-full max-w-sm text-center">
