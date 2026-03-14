@@ -206,6 +206,53 @@ export default function ProfilePage() {
           </div>
         )}
 
+        {/* SNSリンク */}
+        {(profile.twitter || profile.instagram || profile.misskey || profile.website) && (
+          <div className={`${t.card} rounded-2xl shadow-lg p-6 mb-4`}>
+            <h2 className="font-bold mb-4 flex items-center gap-2">
+              <span className="text-lg">🔗</span> SNS・リンク
+            </h2>
+            <div className="flex flex-wrap gap-3">
+              {profile.twitter && (
+                
+                  <a href={`https://twitter.com/${profile.twitter.replace('@', '')}`}
+                  target="_blank"
+                  className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-full text-sm font-bold hover:opacity-80 transition"
+                >
+                  𝕏 {profile.twitter}
+                </a>
+              )}
+              {profile.instagram && (
+                
+                  <a href={`https://instagram.com/${profile.instagram.replace('@', '')}`}
+                  target="_blank"
+                  className="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold hover:opacity-80 transition"
+                >
+                  📷 {profile.instagram}
+                </a>
+              )}
+              {profile.misskey && (
+                
+                  <a href={`https://misskey.io/@${profile.misskey.replace('@', '')}`}
+                  target="_blank"
+                  className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold hover:opacity-80 transition"
+                >
+                  🌊 {profile.misskey}
+                </a>
+              )}
+              {profile.website && (
+                
+                  <a href={profile.website}
+                  target="_blank"
+                  className="flex items-center gap-2 bg-gray-600 text-white px-4 py-2 rounded-full text-sm font-bold hover:opacity-80 transition"
+                >
+                  🌐 Webサイト
+                </a>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* イベント */}
         {events.length > 0 && (
           <div className={`${t.card} rounded-2xl shadow-lg p-6 mb-8`}>

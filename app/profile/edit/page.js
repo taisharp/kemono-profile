@@ -97,7 +97,7 @@ export default function EditProfilePage() {
     else setMessage('保存しました！✅')
   }
 
- const fields = [
+  const fields = [
     { key: 'display_name', label: 'キャラ名', type: 'text' },
     { key: 'species', label: '種族', type: 'text' },
     { key: 'gender', label: '性別', type: 'text' },
@@ -105,7 +105,11 @@ export default function EditProfilePage() {
     { key: 'birthday', label: '誕生日', type: 'date' },
     { key: 'owner_name', label: 'オーナー名', type: 'text' },
     { key: 'workshop', label: '出身工房', type: 'text' },
-]
+    { key: 'twitter', label: 'X（Twitter）ID', type: 'text' },
+    { key: 'instagram', label: 'Instagram ID', type: 'text' },
+    { key: 'misskey', label: 'Misskey ID', type: 'text' },
+    { key: 'website', label: 'WebサイトURL', type: 'url' },
+  ]
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
