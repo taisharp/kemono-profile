@@ -152,6 +152,17 @@ export default function CharacterPage() {
           </div>
         )}
 
+                  {/* ここすき */}
+          {character.favorite_things && (
+            <div className={`${t.card} rounded-2xl shadow-lg p-6 mb-4`}>
+              <h2 className="font-bold mb-3 flex items-center gap-2">
+                <span>💕</span> ここすき
+              </h2>
+              <p className="whitespace-pre-wrap leading-relaxed opacity-90">{character.favorite_things}</p>
+            </div>
+          )}
+
+
         {/* プロフィール詳細 */}
         <div className={`${t.card} rounded-2xl shadow-lg p-6 mb-4`}>
           <h2 className="font-bold mb-4 flex items-center gap-2">
