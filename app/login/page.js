@@ -19,14 +19,14 @@ export default function LoginPage() {
     } else {
       const { error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) setMessage(error.message)
-      else router.push('/profile/edit')
+      else router.push('/')
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded-lg border border-gray-200 w-full max-w-md">
+        <h1 className="text-2xl font-black mb-6 text-center text-gray-800">
           {isSignUp ? '会員登録' : 'ログイン'} 🐾
         </h1>
         <input
@@ -45,7 +45,7 @@ export default function LoginPage() {
         />
         <button
           onClick={handleAuth}
-          className="w-full bg-orange-400 text-white rounded-lg p-3 font-bold hover:bg-orange-500"
+          className="w-full bg-gray-800 text-white rounded-lg p-3 font-bold hover:bg-gray-700 transition"
         >
           {isSignUp ? '登録する' : 'ログイン'}
         </button>
@@ -56,6 +56,12 @@ export default function LoginPage() {
         >
           {isSignUp ? 'ログインはこちら' : '会員登録はこちら'}
         </p>
+        <button
+  onClick={() => router.push('/mypage/edit')}
+  className="w-full bg-white border border-gray-300 text-gray-600 rounded-lg p-3 font-bold hover:bg-gray-50 mb-2 transition"
+>
+  👤 マイプロフィールを編集
+</button>
       </div>
     </div>
   )

@@ -12,6 +12,8 @@ export default function EventsPage() {
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState({ name: '', event_date: '', location: '', url: '', description: '' })
   const [message, setMessage] = useState('')
+  const [sortBy, setSortBy] = useState('date')
+
 
   useEffect(() => {
     const load = async () => {
@@ -44,6 +46,18 @@ export default function EventsPage() {
     setEvents(events.filter(e => e.id !== id))
   }
 
+  const sortedEvents = [...events].sort((a, b) => {
+  if (sortBy === 'date') {
+    // 日付が近い順（未設定は最後）
+    if (!a.event_date) return 1
+    if (!b.event_date) return -1
+    return new Date(a.event_date) - new Date(b.event_date)
+  } else {
+    // 新着順
+    return new Date(b.created_at) - new Date(a.created_at)
+  }
+})
+
   if (loading) return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 flex items-center justify-center">
       <div className="text-center">
@@ -67,7 +81,25 @@ export default function EventsPage() {
             </button>
           )}
         </div>
-
+{/* 並べ替え */}
+<div className="flex gap-2 mb-4">
+  <button
+    onClick={() => setSortBy('date')}
+    className={`text-sm font-bold px-4 py-2 rounded-full transition ${
+      sortBy === 'date' ? 'bg-gray-800 text-white' : 'bg-white border border-gray-300 text-gray-500 hover:bg-gray-50'
+    }`}
+  >
+    📅 開催日が近い順
+  </button>
+  <button
+    onClick={() => setSortBy('new')}
+    className={`text-sm font-bold px-4 py-2 rounded-full transition ${
+      sortBy === 'new' ? 'bg-gray-800 text-white' : 'bg-white border border-gray-300 text-gray-500 hover:bg-gray-50'
+    }`}
+  >
+    🆕 新着順
+  </button>
+</div>
         {/* イベント追加フォーム */}
         {showForm && (
           <div className="bg-white rounded-2xl shadow p-6 mb-6">
@@ -114,7 +146,7 @@ export default function EventsPage() {
           </div>
         ) : (
           <div className="space-y-4">
-            {events.map(event => (
+            {sortedEvents.map(event => (
               <div
                 key={event.id}
                 className="bg-white rounded-2xl shadow p-5 cursor-pointer hover:shadow-lg transition"

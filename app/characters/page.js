@@ -35,7 +35,8 @@ export default function CharactersPage() {
   }
 
   if (loading) return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 flex items-center justify-center">
+       <div className="min-h-screen bg-gray-100 py-10 px-4 text-gray-900">
+
       <div className="text-center">
         <div className="text-5xl mb-4 animate-bounce">🐾</div>
         <p className="text-gray-400">読み込み中...</p>
@@ -44,7 +45,8 @@ export default function CharactersPage() {
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 py-10 px-4 text-gray-900">
+    <div className="min-h-screen bg-gray-100 py-10 px-4 text-gray-900">
+
       <div className="max-w-lg mx-auto">
         <h1 className="text-2xl font-bold mb-6">🐾 マイキャラ一覧</h1>
 
@@ -54,7 +56,7 @@ export default function CharactersPage() {
             <p className="text-center text-gray-400 py-10">キャラがまだいません！追加してみよう</p>
           )}
           {characters.map(chara => (
-            <div key={chara.id} className="bg-white rounded-2xl shadow p-4 flex items-center gap-4">
+             <div key={chara.id} className="bg-white rounded-lg border border-gray-200 p-4 flex items-center gap-4 hover:shadow-sm transition">
               <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-200 to-pink-200 overflow-hidden flex-shrink-0">
                 {chara.icon_image_url
                   ? <img src={chara.icon_image_url} className="w-full h-full object-cover" />
@@ -86,14 +88,14 @@ export default function CharactersPage() {
         {/* 追加ボタン */}
         <button
           onClick={handleAdd}
-          className="w-full bg-orange-400 text-white rounded-2xl p-4 font-bold hover:bg-orange-500 text-lg"
+          className="w-full bg-gray-800 text-white rounded-lg p-4 font-bold hover:bg-gray-700 text-lg transition"
         >
           ＋ キャラを追加する
         </button>
 
         <button
           onClick={() => router.push('/')}
-          className="w-full mt-3 border border-orange-400 text-orange-400 rounded-2xl p-3 font-bold hover:bg-orange-50"
+          className="w-full mt-3 border border-gray-300 text-gray-500 rounded-lg p-3 font-bold hover:bg-white transition"
         >
           トップへ戻る
         </button>

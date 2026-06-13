@@ -1,5 +1,6 @@
-import { Zen_Maru_Gothic } from 'next/font/google';
-import './globals.css';
+import { Zen_Maru_Gothic } from 'next/font/google'
+import './globals.css'
+import Footer from './components/Footer'
 
 const zenMaru = Zen_Maru_Gothic({
   weight: ['400', '500', '700', '900'],
@@ -12,10 +13,15 @@ export const metadata = {
   description: 'あなたのケモノキャラを紹介しよう！',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }) {
   return (
     <html lang="ja">
-      <body className={zenMaru.className}>{children}</body>
+      <body className={zenMaru.className}>
+        <div className="flex flex-col min-h-screen">
+          <div className="flex-1">{children}</div>
+          <Footer />
+        </div>
+      </body>
     </html>
   )
 }

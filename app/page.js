@@ -25,78 +25,62 @@ export default function HomePage() {
 
   if (loading) return <p className="text-center mt-20">読み込み中...🐾</p>
 
-  return (
-    <div className="min-h-screen bg-orange-50 flex flex-col items-center justify-center px-4">
-      <h1 className="text-4xl font-bold text-orange-500 mb-2">🐾 ケモノプロフィール</h1>
-      <p className="text-gray-500 mb-10">あなたのケモノキャラを紹介しよう！</p>
-
-      
-
+return (
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-4">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-black text-gray-800 mb-2">🐾 ケモノプロフィール</h1>
+        <p className="text-gray-400 text-sm">あなたのケモノキャラを紹介しよう</p>
+      </div>
 
       {user ? (
-        <div className="bg-white rounded-xl shadow p-8 w-full max-w-sm text-center">
-          <p className="text-gray-600 mb-6">ようこそ！<br/><span className="font-bold">{user.email}</span></p>
-          {/* <button
-            onClick={() => router.push('/profile/edit')}
-            className="w-full bg-orange-400 text-white rounded-lg p-3 font-bold hover:bg-orange-500 mb-3"
-          >
-            プロフィールを編集する
-          </button> */}
-
+        <div className="bg-white rounded-lg border border-gray-200 p-6 w-full max-w-sm">
+          <p className="text-gray-500 text-sm text-center mb-5">
+            ようこそ<br/><span className="font-bold text-gray-700">{user.email}</span>
+          </p>
           <button
-          onClick={() => router.push('/characters')}
-          className="w-full bg-orange-400 text-white rounded-lg p-3 font-bold hover:bg-orange-500 mb-3"
-        >
-          🐾 マイキャラを管理する
-        </button>
-{/* 
-          <button
-            onClick={() => router.push('/profile/events')}
-            className="w-full bg-orange-300 text-white rounded-lg p-3 font-bold hover:bg-orange-400 mb-3"
+            onClick={() => router.push('/characters')}
+            className="w-full bg-gray-800 text-white rounded-lg p-3 font-bold hover:bg-gray-700 mb-2 transition"
           >
-            イベントを管理する
+            🐾 マイキャラを管理する
           </button>
-          <button
-            onClick={() => router.push(`/profile/${user.id}`)}
-            className="w-full border border-orange-400 text-orange-400 rounded-lg p-3 font-bold hover:bg-orange-50 mb-3"
-          >
-            自分のプロフィールを見る
-          </button> */}
-
-
           <button
             onClick={() => router.push('/profiles')}
-            className="w-full bg-pink-300 text-white rounded-lg p-3 font-bold hover:bg-pink-400 mb-3"
+            className="w-full bg-white border border-gray-300 text-gray-600 rounded-lg p-3 font-bold hover:bg-gray-50 mb-2 transition"
           >
-            みんなのプロフィールを見る 🐾
+            キャラクター検索
           </button>
-
           <button
             onClick={() => router.push('/events')}
-            className="w-full bg-pink-400 text-white rounded-lg p-3 font-bold hover:bg-pink-500 mb-3"
+            className="w-full bg-white border border-gray-300 text-gray-600 rounded-lg p-3 font-bold hover:bg-gray-50 mb-4 transition"
           >
-            🎪 イベント一覧を見る
+            🎪 イベント一覧
           </button>
+
+<button
+  onClick={() => router.push('/mypage/edit')}
+  className="w-full bg-white border border-gray-300 text-gray-600 rounded-lg p-3 font-bold hover:bg-gray-50 mb-2 transition"
+>
+  👤 マイプロフィールを編集
+</button>
 
           <button
             onClick={handleLogout}
-            className="w-full text-gray-400 text-sm hover:text-gray-600"
+            className="w-full text-gray-400 text-sm hover:text-gray-600 transition"
           >
             ログアウト
           </button>
         </div>
       ) : (
-        <div className="bg-white rounded-xl shadow p-8 w-full max-w-sm text-center">
-          <p className="text-gray-600 mb-6">会員登録してプロフィールを作ろう！</p>
+        <div className="bg-white rounded-lg border border-gray-200 p-6 w-full max-w-sm text-center">
+          <p className="text-gray-500 text-sm mb-5">会員登録してプロフィールを作ろう</p>
           <button
             onClick={() => router.push('/login')}
-            className="w-full bg-orange-400 text-white rounded-lg p-3 font-bold hover:bg-orange-500"
+            className="w-full bg-gray-800 text-white rounded-lg p-3 font-bold hover:bg-gray-700 transition"
           >
             ログイン / 会員登録
           </button>
         </div>
       )}
     </div>
-    
   )
 }
