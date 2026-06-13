@@ -110,212 +110,196 @@ export default function CharacterPage() {
 
   const t = TEMPLATES[character.template] || TEMPLATES.default
 
-  return (
+return (
     <div className={`min-h-screen bg-gradient-to-br ${t.bg}`}>
 
-      {/* ヘッダー画像 */}
-      <div className={`w-full h-56 bg-gradient-to-r ${t.header} relative overflow-hidden`}>
+      {/* ヘッダー画像（PCでは高く） */}
+      <div className={`w-full h-44 md:h-72 bg-gradient-to-r ${t.header} relative overflow-hidden`}>
         {character.header_image_url
           ? <img src={character.header_image_url} className="w-full h-full object-cover" />
-          : <div className="w-full h-full flex items-center justify-center text-6xl opacity-20">🐾</div>
+          : <div className="w-full h-full flex items-center justify-center text-6xl md:text-8xl opacity-20">🐾</div>
         }
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
       </div>
 
-      <div className="max-w-xl mx-auto px-4 -mt-16 relative z-10">
+      <div className="max-w-xl md:max-w-5xl mx-auto px-4 -mt-16 md:-mt-20 relative z-10 pb-12">
 
-        {/* アイコン＋名前 */}
-        <div className={`${t.card} rounded-2xl shadow-lg p-6 mb-4 flex items-end gap-4`}>
-          <div className={`w-28 h-28 rounded-2xl bg-gradient-to-br ${t.icon} border-4 border-white shadow-md overflow-hidden flex-shrink-0`}>
+        {/* アイコン＋名前カード */}
+        <div className={`${t.card} rounded-3xl shadow-xl shadow-black/5 p-6 md:p-8 mb-6 flex items-end gap-4 md:gap-6 fade-up`}>
+          <div className={`w-24 h-24 md:w-36 md:h-36 rounded-3xl bg-gradient-to-br ${t.icon} border-4 border-white shadow-lg overflow-hidden flex-shrink-0 ring-4 ring-white/50`}>
             {character.icon_image_url
               ? <img src={character.icon_image_url} className="w-full h-full object-cover" />
-              : <div className="w-full h-full flex items-center justify-center text-4xl">🐾</div>
+              : <div className="w-full h-full flex items-center justify-center text-4xl md:text-6xl">🐾</div>
             }
           </div>
-          <div className="flex-1 min-w-0">
-            <h1 className="text-2xl font-bold truncate">{character.display_name}</h1>
-            {character.species && (
-              <span className={`inline-block text-xs font-bold px-3 py-1 rounded-full mt-1 ${t.accent}`}>
-                🐾 {character.species}
-              </span>
+          <div className="flex-1 min-w-0 pb-1">
+            <h1 className="text-2xl md:text-4xl font-black truncate tracking-wide">{character.display_name}</h1>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {character.species && (
+                <span className={`inline-block text-xs md:text-sm font-bold px-3 py-1 rounded-full ${t.accent}`}>
+                  🐾 {character.species}
+                </span>
+              )}
+              {character.workshop && (
+                <span className={`inline-block text-xs md:text-sm font-bold px-3 py-1 rounded-full ${t.tag} ${t.tagLabel}`}>
+                  🏠 {character.workshop}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* PC：2カラム／スマホ：縦並び */}
+        <div className="md:grid md:grid-cols-12 md:gap-6 md:items-start">
+
+          {/* 左カラム：プロフィール情報 */}
+          <div className="md:col-span-5 space-y-6">
+
+            {/* 自己紹介 */}
+            {character.bio && (
+              <div className={`${t.card} rounded-3xl shadow-xl shadow-black/5 p-6 fade-up-delay-1`}>
+                <h2 className="font-bold mb-3 flex items-center gap-2 text-lg">
+                  <span>✏️</span> 自己紹介
+                </h2>
+                <p className="whitespace-pre-wrap leading-relaxed opacity-90">{character.bio}</p>
+              </div>
+            )}
+
+            {/* プロフィール詳細 */}
+            <div className={`${t.card} rounded-3xl shadow-xl shadow-black/5 p-6 fade-up-delay-1`}>
+              <h2 className="font-bold mb-4 flex items-center gap-2 text-lg">
+                <span>📋</span> プロフィール
+              </h2>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { label: '性別', value: character.gender, emoji: '⚧️' },
+                  { label: '性格', value: character.personality, emoji: '💫' },
+                  { label: '誕生日', value: character.birthday, emoji: '🎂' },
+                  { label: '種族', value: character.species, emoji: '🐾' },
+                  { label: 'オーナー', value: character.owner_name, emoji: '👤' },
+                  { label: '出身工房', value: character.workshop, emoji: '🏠' },
+                ].filter(item => item.value).map(item => (
+                  <div key={item.label} className={`${t.tag} rounded-2xl p-3 transition hover:scale-[1.02]`}>
+                    <p className={`text-xs font-bold mb-1 ${t.tagLabel}`}>{item.emoji} {item.label}</p>
+                    <p className="font-bold text-sm">{item.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* SNSリンク */}
+            {(character.twitter || character.instagram || character.misskey || character.website) && (
+              <div className={`${t.card} rounded-3xl shadow-xl shadow-black/5 p-6 fade-up-delay-2`}>
+                <h2 className="font-bold mb-4 flex items-center gap-2 text-lg">
+                  <span>🔗</span> SNS・リンク
+                </h2>
+                <div className="flex flex-wrap gap-3">
+                  {character.twitter && (
+                    <a href={`https://twitter.com/${character.twitter.replace('@', '')}`} target="_blank"
+                      className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-full text-sm font-bold hover:opacity-80 hover:-translate-y-0.5 transition">
+                      𝕏 {character.twitter}
+                    </a>
+                  )}
+                  {character.instagram && (
+                    <a href={`https://instagram.com/${character.instagram.replace('@', '')}`} target="_blank"
+                      className="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold hover:opacity-80 hover:-translate-y-0.5 transition">
+                      📷 {character.instagram}
+                    </a>
+                  )}
+                  {character.misskey && (
+                    <a href={`https://misskey.io/@${character.misskey.replace('@', '')}`} target="_blank"
+                      className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold hover:opacity-80 hover:-translate-y-0.5 transition">
+                      🌊 {character.misskey}
+                    </a>
+                  )}
+                  {character.website && (
+                    <a href={character.website} target="_blank"
+                      className="flex items-center gap-2 bg-gray-600 text-white px-4 py-2 rounded-full text-sm font-bold hover:opacity-80 hover:-translate-y-0.5 transition">
+                      🌐 Webサイト
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* 右カラム：ギャラリー＆イベント */}
+          <div className="md:col-span-7 space-y-6 mt-6 md:mt-0">
+
+            {/* ギャラリー */}
+            {subImages.length > 0 && (
+              <div className={`${t.card} rounded-3xl shadow-xl shadow-black/5 p-6 fade-up-delay-2`}>
+                <h2 className="font-bold mb-4 flex items-center gap-2 text-lg">
+                  <span>🖼️</span> ギャラリー
+                </h2>
+                <div className="grid grid-cols-3 md:grid-cols-4 gap-2 md:gap-3">
+                  {subImages.map(img => (
+                    <div
+                      key={img.id}
+                      className="relative aspect-square overflow-hidden rounded-2xl cursor-pointer group"
+                      onClick={() => setSelectedImage({ url: img.image_url, caption: img.caption })}
+                    >
+                      <img src={img.image_url} className="w-full h-full object-cover transition duration-300 group-hover:scale-110" />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition" />
+                      {img.caption && (
+                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent text-white text-xs p-2 pt-4 truncate">
+                          {img.caption}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* イベント */}
+            {events.length > 0 && (
+              <div className={`${t.card} rounded-3xl shadow-xl shadow-black/5 p-6 fade-up-delay-3`}>
+                <h2 className="font-bold mb-4 flex items-center gap-2 text-lg">
+                  <span>🎪</span> 参加予定イベント
+                </h2>
+                <div className="space-y-3">
+                  {events.map(entry => (
+                    <div
+                      key={entry.id}
+                      className={`bg-gradient-to-r ${t.event} rounded-2xl p-4 border cursor-pointer hover:-translate-y-0.5 hover:shadow-md transition`}
+                      onClick={() => router.push(`/events/${entry.event_id}`)}
+                    >
+                      <p className="font-bold">{entry.events?.name}</p>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {entry.events?.event_date && (
+                          <span className="text-xs bg-white/60 px-2 py-1 rounded-full font-bold">
+                            📅 {entry.events.event_date}
+                          </span>
+                        )}
+                        {entry.events?.location && (
+                          <span className="text-xs bg-white/60 px-2 py-1 rounded-full font-bold">
+                            📍 {entry.events.location}
+                          </span>
+                        )}
+                      </div>
+                      {entry.events?.url && (
+                        <a
+                          href={entry.events.url}
+                          target="_blank"
+                          className={`inline-block mt-2 text-xs font-bold ${t.link}`}
+                          onClick={e => e.stopPropagation()}
+                        >
+                          🔗 詳細を見る →
+                        </a>
+                      )}
+
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
         </div>
 
-        {/* 自己紹介 */}
-        {character.bio && (
-          <div className={`${t.card} rounded-2xl shadow-lg p-6 mb-4`}>
-            <h2 className="font-bold mb-3 flex items-center gap-2">
-              <span>✏️</span> 自己紹介
-            </h2>
-            <p className="whitespace-pre-wrap leading-relaxed opacity-90">{character.bio}</p>
-          </div>
-        )}
-
-                  {/* ここすき */}
-          {character.favorite_things && (
-            <div className={`${t.card} rounded-2xl shadow-lg p-6 mb-4`}>
-              <h2 className="font-bold mb-3 flex items-center gap-2">
-                <span>💕</span> ここすき
-              </h2>
-              <p className="whitespace-pre-wrap leading-relaxed opacity-90">{character.favorite_things}</p>
-            </div>
-          )}
-
-
-        {/* プロフィール詳細 */}
-        <div className={`${t.card} rounded-2xl shadow-lg p-6 mb-4`}>
-          <h2 className="font-bold mb-4 flex items-center gap-2">
-            <span>📋</span> プロフィール
-          </h2>
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { label: '性別', value: character.gender, emoji: '⚧️' },
-              { label: '性格', value: character.personality, emoji: '💫' },
-              { label: '誕生日', value: character.birthday, emoji: '🎂' },
-              { label: '種族', value: character.species, emoji: '🐾' },
-              { label: 'オーナー', value: character.owner_name, emoji: '👤' },
-              { label: '出身工房', value: character.workshop, emoji: '🏠' },
-            ].filter(item => item.value).map(item => (
-              <div key={item.label} className={`${t.tag} rounded-xl p-3`}>
-                <p className={`text-xs font-bold mb-1 ${t.tagLabel}`}>{item.emoji} {item.label}</p>
-                <p className="font-medium text-sm">{item.value}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* SNSリンク */}
-        {(character.twitter || character.instagram || character.misskey || character.website) && (
-          <div className={`${t.card} rounded-2xl shadow-lg p-6 mb-4`}>
-            <h2 className="font-bold mb-4 flex items-center gap-2">
-              <span>🔗</span> SNS・リンク
-            </h2>
-            <div className="flex flex-wrap gap-3">
-              {character.twitter && (
-                <a href={`https://twitter.com/${character.twitter.replace('@', '')}`} target="_blank"
-                  className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-full text-sm font-bold hover:opacity-80">
-                  𝕏 {character.twitter}
-                </a>
-              )}
-              {character.instagram && (
-                <a href={`https://instagram.com/${character.instagram.replace('@', '')}`} target="_blank"
-                  className="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold hover:opacity-80">
-                  📷 {character.instagram}
-                </a>
-              )}
-              {character.misskey && (
-                <a href={`https://misskey.io/@${character.misskey.replace('@', '')}`} target="_blank"
-                  className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold hover:opacity-80">
-                  🌊 {character.misskey}
-                </a>
-              )}
-              {character.website && (
-                <a href={character.website} target="_blank"
-                  className="flex items-center gap-2 bg-gray-600 text-white px-4 py-2 rounded-full text-sm font-bold hover:opacity-80">
-                  🌐 Webサイト
-                </a>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* ギャラリー */}
-        {subImages.length > 0 && (
-          <div className={`${t.card} rounded-2xl shadow-lg p-6 mb-4`}>
-            <h2 className="font-bold mb-4 flex items-center gap-2">
-              <span>🖼️</span> ギャラリー
-            </h2>
-            <div className="grid grid-cols-3 gap-2">
-              {subImages.map(img => (
-                <div
-                  key={img.id}
-                  className="relative aspect-square overflow-hidden rounded-xl cursor-pointer group"
-                  onClick={() => setSelectedImage({ url: img.image_url, caption: img.caption })}
-                >
-                  <img src={img.image_url} className="w-full h-full object-cover transition group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition" />
-                  {img.caption && (
-                    <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-xs p-1 truncate">
-                      {img.caption}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* イベント
-        {events.length > 0 && (
-          <div className={`${t.card} rounded-2xl shadow-lg p-6 mb-4`}>
-            <h2 className="font-bold mb-4 flex items-center gap-2">
-              <span>🎪</span> 参加予定イベント
-            </h2>
-            <div className="space-y-3">
-              {events.map(event => (
-                <div key={event.id} className={`bg-gradient-to-r ${t.event} rounded-xl p-4 border`}>
-                  <p className="font-bold">{event.name}</p>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {event.event_date && <span className="text-xs bg-white/50 px-2 py-1 rounded-full">📅 {event.event_date}</span>}
-                    {event.location && <span className="text-xs bg-white/50 px-2 py-1 rounded-full">📍 {event.location}</span>}
-                  </div>
-                  {event.url && (
-                    <a href={event.url} target="_blank" className={`inline-block mt-2 text-xs font-bold ${t.link}`}>
-                      🔗 詳細を見る →
-                    </a>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )} */}
-
-        {/* イベント */}
-        {events.length > 0 && (
-        <div className={`${t.card} rounded-2xl shadow-lg p-6 mb-4`}>
-            <h2 className="font-bold mb-4 flex items-center gap-2">
-            <span>🎪</span> 参加予定イベント
-            </h2>
-            <div className="space-y-3">
-            {events.map(entry => (
-                <div
-                key={entry.id}
-                className={`bg-gradient-to-r ${t.event} rounded-xl p-4 border cursor-pointer hover:opacity-80 transition`}
-                onClick={() => router.push(`/events/${entry.event_id}`)}
-                >
-                <p className="font-bold">{entry.events?.name}</p>
-                <div className="flex flex-wrap gap-2 mt-2">
-                    {entry.events?.event_date && (
-                    <span className="text-xs bg-white/50 px-2 py-1 rounded-full">
-                        📅 {entry.events.event_date}
-                    </span>
-                    )}
-                    {entry.events?.location && (
-                    <span className="text-xs bg-white/50 px-2 py-1 rounded-full">
-                        📍 {entry.events.location}
-                    </span>
-                    )}
-                </div>
-                {entry.events?.url && (
-                    
-                    <a href={entry.events.url}
-                    target="_blank"
-                    className={`inline-block mt-2 text-xs font-bold ${t.link}`}
-                    onClick={e => e.stopPropagation()}
-                    >
-                    🔗 詳細を見る →
-                    </a>
-                )}
-                </div>
-            ))}
-            </div>
-        </div>
-        )}
-
         <button
           onClick={() => router.push('/characters')}
-          className="w-full mb-8 border border-orange-400 text-orange-400 rounded-2xl p-3 font-bold hover:bg-orange-50"
+          className="w-full md:max-w-sm md:mx-auto md:block mt-8 border-2 border-orange-400 text-orange-400 rounded-2xl p-3 font-bold hover:bg-orange-50 transition"
         >
           キャラ一覧へ戻る
         </button>
@@ -325,8 +309,8 @@ export default function CharacterPage() {
       {/* 画像拡大モーダル */}
       {selectedImage && (
         <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4" onClick={() => setSelectedImage(null)}>
-          <div className="max-w-lg w-full" onClick={e => e.stopPropagation()}>
-            <img src={selectedImage.url} className="w-full rounded-2xl shadow-2xl" />
+          <div className="max-w-lg md:max-w-2xl w-full" onClick={e => e.stopPropagation()}>
+            <img src={selectedImage.url} className="w-full rounded-3xl shadow-2xl" />
             {selectedImage.caption && (
               <div className="bg-white/10 backdrop-blur text-white rounded-2xl p-4 mt-3">
                 <p className="text-sm leading-relaxed">{selectedImage.caption}</p>
