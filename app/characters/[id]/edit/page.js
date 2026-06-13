@@ -10,6 +10,7 @@ const TEMPLATES = [
   { id: 'night', name: 'ナイト', emoji: '🌙', bg: 'from-purple-900 to-indigo-900' },
   { id: 'cherry', name: 'さくら', emoji: '🌸', bg: 'from-pink-50 to-rose-50' },
   { id: 'sunset', name: 'サンセット', emoji: '🌅', bg: 'from-orange-100 to-red-100' },
+  { id: 'simple', name: 'シンプル', emoji: '📄', bg: 'from-gray-50 to-gray-100' },
 ]
 
 export default function EditCharacterPage() {

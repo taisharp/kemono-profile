@@ -108,8 +108,189 @@ export default function CharacterPage() {
     </div>
   )
 
-  const t = TEMPLATES[character.template] || TEMPLATES.default
+const t = TEMPLATES[character.template] || TEMPLATES.default
 
+// ===== シンプル（Skeb風）レイアウト =====
+  if (character.template === 'simple') {
+    return (
+      <div className="min-h-screen bg-gray-100">
+
+        {/* ヘッダー画像 */}
+        <div className="w-full h-56 md:h-80 bg-gradient-to-r from-gray-200 to-gray-300 relative overflow-hidden">
+          {character.header_image_url
+            ? <img src={character.header_image_url} className="w-full h-full object-cover" />
+            : <div className="w-full h-full flex items-center justify-center text-6xl md:text-8xl opacity-20">🐾</div>
+          }
+        </div>
+
+        {/* アイコン＋名前エリア */}
+        <div className="bg-white border-b border-gray-200 relative z-10">
+          <div className="max-w-5xl mx-auto px-4 md:px-6">
+            <div className="flex flex-col md:flex-row md:items-end gap-4 -mt-16 md:-mt-[88px] pb-5 relative z-10">
+              {/* アイコン */}
+              <div className="w-32 h-32 md:w-44 md:h-44 rounded-full border-4 border-white shadow-lg overflow-hidden bg-orange-100 flex-shrink-0">
+                {character.icon_image_url
+                  ? <img src={character.icon_image_url} className="w-full h-full object-cover" />
+                  : <div className="w-full h-full flex items-center justify-center text-5xl">🐾</div>
+                }
+              </div>
+              {/* 名前・自己紹介・SNS */}
+              <div className="flex-1 min-w-0 md:pb-2">
+                <h1 className="text-2xl md:text-3xl font-black text-gray-800">{character.display_name}</h1>
+                {character.bio && (
+                  <p className="text-sm text-gray-500 mt-1 line-clamp-2 leading-relaxed">{character.bio}</p>
+                )}
+                {/* SNSバッジ */}
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {character.species && (
+                    <span className="inline-flex items-center text-xs font-bold rounded overflow-hidden">
+                      <span className="bg-gray-700 text-white px-2 py-1">種族</span>
+                      <span className="bg-gray-100 text-gray-600 px-2 py-1">{character.species}</span>
+                    </span>
+                  )}
+                  {character.twitter && (
+                    <a href={`https://twitter.com/${character.twitter.replace('@', '')}`} target="_blank"
+                      className="inline-flex items-center text-xs font-bold rounded overflow-hidden hover:opacity-80">
+                      <span className="bg-black text-white px-2 py-1">𝕏</span>
+                      <span className="bg-gray-100 text-gray-600 px-2 py-1">{character.twitter}</span>
+                    </a>
+                  )}
+                  {character.instagram && (
+                    <a href={`https://instagram.com/${character.instagram.replace('@', '')}`} target="_blank"
+                      className="inline-flex items-center text-xs font-bold rounded overflow-hidden hover:opacity-80">
+                      <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-2 py-1">📷</span>
+                      <span className="bg-gray-100 text-gray-600 px-2 py-1">{character.instagram}</span>
+                    </a>
+                  )}
+                  {character.misskey && (
+                    <a href={`https://misskey.io/@${character.misskey.replace('@', '')}`} target="_blank"
+                      className="inline-flex items-center text-xs font-bold rounded overflow-hidden hover:opacity-80">
+                      <span className="bg-green-500 text-white px-2 py-1">🌊</span>
+                      <span className="bg-gray-100 text-gray-600 px-2 py-1">{character.misskey}</span>
+                    </a>
+                  )}
+                  {character.website && (
+                    <a href={character.website} target="_blank"
+                      className="inline-flex items-center text-xs font-bold rounded overflow-hidden hover:opacity-80">
+                      <span className="bg-gray-600 text-white px-2 py-1">🌐</span>
+                      <span className="bg-gray-100 text-gray-600 px-2 py-1">Web</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* メインエリア：左サイドバー＋右ギャラリー */}
+        <div className="max-w-5xl mx-auto px-4 md:px-6 py-6">
+          <div className="md:grid md:grid-cols-12 md:gap-6 md:items-start">
+
+            {/* 左サイドバー */}
+            <div className="md:col-span-4 space-y-4 mb-6 md:mb-0">
+
+              {/* プロフィール項目 */}
+              <div className="bg-white rounded-lg border border-gray-200 p-5 fade-up">
+                {[
+                  { label: 'ジャンル', value: character.species },
+                  { label: '性別', value: character.gender },
+                  { label: '性格', value: character.personality },
+                  { label: '誕生日', value: character.birthday },
+                  { label: 'オーナー', value: character.owner_name },
+                  { label: '出身工房', value: character.workshop },
+                ].filter(item => item.value).map((item, i, arr) => (
+                  <div key={item.label} className={`flex py-2.5 ${i !== arr.length - 1 ? 'border-b border-gray-100' : ''}`}>
+                    <span className="text-gray-400 text-sm w-24 flex-shrink-0">{item.label}</span>
+                    <span className="text-gray-700 text-sm font-medium">{item.value}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* 自己紹介（全文） */}
+              {character.bio && (
+                <div className="bg-white rounded-lg border border-gray-200 p-5 fade-up-delay-1">
+                  <h2 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">自己紹介</h2>
+                  <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{character.bio}</p>
+                </div>
+              )}
+
+              {/* イベント */}
+              {events.length > 0 && (
+                <div className="bg-white rounded-lg border border-gray-200 p-5 fade-up-delay-1">
+                  <h2 className="text-sm font-bold text-gray-700 mb-3 pb-2 border-b border-gray-100">🎪 参加予定イベント</h2>
+                  <div className="space-y-3">
+                    {events.map(entry => (
+                      <div
+                        key={entry.id}
+                        className="border-l-4 border-orange-300 pl-3 cursor-pointer hover:bg-gray-50 rounded-r py-1 transition"
+                        onClick={() => router.push(`/events/${entry.event_id}`)}
+                      >
+                        <p className="font-bold text-gray-700 text-sm">{entry.events?.name}</p>
+                        {entry.events?.event_date && <p className="text-xs text-gray-400">📅 {entry.events.event_date}</p>}
+                        {entry.events?.location && <p className="text-xs text-gray-400">📍 {entry.events.location}</p>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <button
+                onClick={() => router.push('/characters')}
+                className="w-full border border-gray-300 text-gray-500 rounded-lg p-3 text-sm font-bold hover:bg-white transition"
+              >
+                キャラ一覧へ戻る
+              </button>
+            </div>
+
+            {/* 右メイン：ギャラリー */}
+            <div className="md:col-span-8">
+              <div className="bg-white rounded-lg border border-gray-200 p-5 fade-up-delay-2">
+                <h2 className="text-sm font-bold text-gray-700 pb-3 mb-4 border-b border-gray-200">ギャラリー</h2>
+                {subImages.length === 0 ? (
+                  <p className="text-center text-gray-300 py-12 text-sm">まだ画像がありません</p>
+                ) : (
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {subImages.map(img => (
+                      <div
+                        key={img.id}
+                        className="relative aspect-square overflow-hidden rounded-lg border border-gray-100 cursor-pointer group bg-gray-50"
+                        onClick={() => setSelectedImage({ url: img.image_url, caption: img.caption })}
+                      >
+                        <img src={img.image_url} className="w-full h-full object-cover transition group-hover:scale-105" />
+                        {img.caption && (
+                          <div className="absolute top-2 left-2 bg-blue-400 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">
+                            {img.caption.slice(0, 8)}{img.caption.length > 8 ? '…' : ''}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 画像拡大モーダル */}
+        {selectedImage && (
+          <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4" onClick={() => setSelectedImage(null)}>
+            <div className="max-w-lg md:max-w-2xl w-full" onClick={e => e.stopPropagation()}>
+              <img src={selectedImage.url} className="w-full rounded-2xl shadow-2xl" />
+              {selectedImage.caption && (
+                <div className="bg-white/10 backdrop-blur text-white rounded-2xl p-4 mt-3">
+                  <p className="text-sm leading-relaxed">{selectedImage.caption}</p>
+                </div>
+              )}
+              <button onClick={() => setSelectedImage(null)} className="mt-3 w-full text-white/60 hover:text-white text-sm">
+                閉じる
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }
+  // ===== ここまでシンプルレイアウト =====
 return (
     <div className={`min-h-screen bg-gradient-to-br ${t.bg}`}>
 
