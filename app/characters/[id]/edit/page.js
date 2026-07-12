@@ -130,9 +130,9 @@ const fields = [
 ]
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4 text-gray-900">
-      <div className="max-w-lg mx-auto bg-white rounded-xl shadow-md p-8">
-        <h1 className="text-2xl font-bold mb-6">キャラ編集 🐾</h1>
+    <div className="min-h-screen bg-gray-100 py-10 px-4 text-gray-900">
+      <div className="max-w-lg mx-auto bg-white rounded-lg border border-gray-200 p-6 md:p-8">
+        <h1 className="text-2xl font-black mb-6">キャラ編集 🐾</h1>
 
         {/* テンプレート選択 */}
         <div className="mb-6">
@@ -142,8 +142,8 @@ const fields = [
               <button
                 key={t.id}
                 onClick={() => setForm({ ...form, template: t.id })}
-                className={`p-3 rounded-xl border-2 transition text-center ${
-                  form.template === t.id ? 'border-orange-400 bg-orange-50' : 'border-gray-200 hover:border-orange-200'
+                className={`p-3 rounded-lg border-2 transition text-center ${
+                  form.template === t.id ? 'border-gray-800 bg-gray-50' : 'border-gray-200 hover:border-gray-400'
                 }`}
               >
                 <div className={`w-full h-8 rounded-lg bg-gradient-to-r ${t.bg} mb-2`} />
@@ -156,7 +156,7 @@ const fields = [
         {/* ヘッダー画像 */}
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1">ヘッダー画像</label>
-          <div className="w-full h-32 bg-orange-100 rounded-lg overflow-hidden mb-2">
+          <div className="w-full h-32 bg-gray-100 rounded-lg overflow-hidden mb-2">
             {form.header_image_url && <img src={form.header_image_url} className="w-full h-full object-cover" />}
           </div>
           <input type="file" accept="image/*" onChange={handleHeaderUpload} />
@@ -165,13 +165,13 @@ const fields = [
         {/* アイコン */}
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1">アイコン画像</label>
-          <div className="w-20 h-20 bg-orange-200 rounded-full overflow-hidden mb-2">
+          <div className="w-20 h-20 bg-gray-100 rounded-full overflow-hidden mb-2">
             {form.icon_image_url && <img src={form.icon_image_url} className="w-full h-full object-cover" />}
           </div>
           <input type="file" accept="image/*" onChange={handleIconUpload} />
         </div>
 
-        {uploading && <p className="text-orange-400 text-sm mb-3">アップロード中...⏳</p>}
+        {uploading && <p className="text-gray-400 text-sm mb-3">アップロード中...⏳</p>}
 
         {/* フィールド */}
         {fields.map(f => (
@@ -179,7 +179,7 @@ const fields = [
             <label className="block text-sm font-medium mb-1">{f.label}</label>
             <input
               type={f.type}
-              className="w-full border rounded-lg p-3"
+              className="w-full border border-gray-300 rounded-lg p-3"
               value={form[f.key] || ''}
               onChange={e => setForm({ ...form, [f.key]: e.target.value })}
             />
@@ -189,16 +189,16 @@ const fields = [
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1">自己紹介</label>
           <textarea
-            className="w-full border rounded-lg p-3 h-32"
+            className="w-full border border-gray-300 rounded-lg p-3 h-32"
             value={form.bio || ''}
             onChange={e => setForm({ ...form, bio: e.target.value })}
           />
         </div>
-        
+
         <div className="mb-4">
             <label className="block text-sm font-medium mb-1">💕 ここすき</label>
             <textarea
-              className="w-full border rounded-lg p-3 h-24"
+              className="w-full border border-gray-300 rounded-lg p-3 h-24"
               placeholder="好きなもの・こと・場所など自由に！"
               value={form.favorite_things || ''}
               onChange={e => setForm({ ...form, favorite_things: e.target.value })}
@@ -211,13 +211,13 @@ const fields = [
           <label className="block text-sm font-medium mb-2">サブ画像</label>
           <div className="space-y-3 mb-3">
             {subImages.map(img => (
-              <div key={img.id} className="border rounded-xl p-3">
+              <div key={img.id} className="border border-gray-200 rounded-lg p-3">
                 <div className="flex gap-3 items-start">
                   <img src={img.image_url} className="w-20 h-20 object-cover rounded-lg flex-shrink-0" />
                   <div className="flex-1">
                     <textarea
                       placeholder="コメントを入力..."
-                      className="w-full border rounded-lg p-2 text-sm h-16 resize-none"
+                      className="w-full border border-gray-300 rounded-lg p-2 text-sm h-16 resize-none"
                       value={img.caption || ''}
                       onChange={e => {
                         const updated = subImages.map(i => i.id === img.id ? { ...i, caption: e.target.value } : i)
@@ -241,7 +241,7 @@ const fields = [
           <label className="block text-sm font-medium mb-2">🎪 参加予定イベント</label>
           <div className="space-y-2 mb-3">
             {events.map(ev => (
-              <div key={ev.id} className="flex items-center justify-between bg-orange-50 rounded-xl p-3">
+              <div key={ev.id} className="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-lg p-3">
                 <div>
                   <p className="font-bold text-sm">{ev.name}</p>
                   {ev.event_date && <p className="text-xs text-gray-400">📅 {ev.event_date}</p>}
@@ -260,7 +260,7 @@ const fields = [
               <input
                 type={f.type}
                 placeholder={f.label}
-                className="w-full border rounded-lg p-2 text-sm"
+                className="w-full border border-gray-300 rounded-lg p-2 text-sm"
                 value={eventForm[f.key]}
                 onChange={e => setEventForm({ ...eventForm, [f.key]: e.target.value })}
               />
@@ -268,33 +268,33 @@ const fields = [
           ))}
           <button
             onClick={handleAddEvent}
-            className="w-full bg-orange-200 text-orange-700 rounded-lg p-2 text-sm font-bold hover:bg-orange-300"
+            className="w-full bg-gray-100 text-gray-700 rounded-lg p-2 text-sm font-bold hover:bg-gray-200 transition"
           >
             ＋ イベントを追加
           </button>
         </div>
 
-        <button onClick={handleSave} className="w-full bg-orange-400 text-white rounded-lg p-3 font-bold hover:bg-orange-500">
+        <button onClick={handleSave} className="w-full bg-gray-800 text-white rounded-lg p-3 font-bold hover:bg-gray-700 transition">
           保存する
         </button>
 
-        {message && <p className="mt-3 text-center text-sm text-gray-600">{message}</p>}
+        {message && <p className="mt-3 text-center text-sm text-gray-500">{message}</p>}
 
         <button
           onClick={() => router.push(`/characters/${id}`)}
-          className="w-full mt-3 border border-orange-400 text-orange-400 rounded-lg p-3 font-bold hover:bg-orange-50"
+          className="w-full mt-3 border border-gray-300 text-gray-500 rounded-lg p-3 font-bold hover:bg-gray-50 transition"
         >
           プロフィールを見る
         </button>
 
         <button
           onClick={() => router.push('/characters')}
-          className="w-full mt-3 border border-gray-300 text-gray-400 rounded-lg p-3 font-bold hover:bg-gray-50"
+          className="w-full mt-3 border border-gray-300 text-gray-400 rounded-lg p-3 font-bold hover:bg-gray-50 transition"
         >
           キャラ一覧へ戻る
         </button>
 
-        <button onClick={handleDelete} className="w-full mt-6 text-red-400 text-sm hover:text-red-600">
+        <button onClick={handleDelete} className="w-full mt-6 text-red-400 text-sm hover:text-red-600 transition">
           このキャラを削除する
         </button>
       </div>

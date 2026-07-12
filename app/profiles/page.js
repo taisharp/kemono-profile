@@ -42,7 +42,7 @@ const filtered = characters.filter(c =>
     subImages.filter(img => img.character_id === characterId).slice(0, 3)
 
   if (loading) return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="text-center">
         <div className="text-5xl mb-4 animate-bounce">🐾</div>
         <p className="text-gray-400">読み込み中...</p>

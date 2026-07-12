@@ -222,7 +222,7 @@ const t = TEMPLATES[character.template] || TEMPLATES.default
                     {events.map(entry => (
                       <div
                         key={entry.id}
-                        className="border-l-4 border-orange-300 pl-3 cursor-pointer hover:bg-gray-50 rounded-r py-1 transition"
+                        className="border-l-4 border-gray-300 pl-3 cursor-pointer hover:bg-gray-50 rounded-r py-1 transition"
                         onClick={() => router.push(`/events/${entry.event_id}`)}
                       >
                         <p className="font-bold text-gray-700 text-sm">{entry.events?.name}</p>

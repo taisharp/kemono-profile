@@ -13,7 +13,7 @@ export const metadata = {
   description: 'あなたのケモノキャラを紹介しよう！',
 }
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
       <body className={zenMaru.className}>

@@ -32,14 +32,14 @@ export default function LoginPage() {
         <input
           type="email"
           placeholder="メールアドレス"
-          className="w-full border rounded-lg p-3 mb-3"
+          className="w-full border border-gray-300 rounded-lg p-3 mb-3"
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
         <input
           type="password"
           placeholder="パスワード"
-          className="w-full border rounded-lg p-3 mb-4"
+          className="w-full border border-gray-300 rounded-lg p-3 mb-4"
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
@@ -51,17 +51,12 @@ export default function LoginPage() {
         </button>
         {message && <p className="mt-3 text-center text-sm text-gray-600">{message}</p>}
         <p
-          className="mt-4 text-center text-sm text-blue-500 cursor-pointer"
+          className="mt-4 text-center text-sm text-gray-500 hover:text-gray-800 cursor-pointer transition"
           onClick={() => setIsSignUp(!isSignUp)}
         >
           {isSignUp ? 'ログインはこちら' : '会員登録はこちら'}
         </p>
-        <button
-  onClick={() => router.push('/mypage/edit')}
-  className="w-full bg-white border border-gray-300 text-gray-600 rounded-lg p-3 font-bold hover:bg-gray-50 mb-2 transition"
->
-  👤 マイプロフィールを編集
-</button>
+        
       </div>
     </div>
   )

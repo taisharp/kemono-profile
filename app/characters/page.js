@@ -48,7 +48,7 @@ export default function CharactersPage() {
     <div className="min-h-screen bg-gray-100 py-10 px-4 text-gray-900">
 
       <div className="max-w-lg mx-auto">
-        <h1 className="text-2xl font-bold mb-6">🐾 マイキャラ一覧</h1>
+        <h1 className="text-2xl font-black text-gray-800 mb-6">🐾 マイキャラ一覧</h1>
 
         {/* キャラ一覧 */}
         <div className="space-y-3 mb-6">
@@ -57,7 +57,7 @@ export default function CharactersPage() {
           )}
           {characters.map(chara => (
              <div key={chara.id} className="bg-white rounded-lg border border-gray-200 p-4 flex items-center gap-4 hover:shadow-sm transition">
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-200 to-pink-200 overflow-hidden flex-shrink-0">
+              <div className="w-14 h-14 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
                 {chara.icon_image_url
                   ? <img src={chara.icon_image_url} className="w-full h-full object-cover" />
                   : <div className="w-full h-full flex items-center justify-center text-2xl">🐾</div>
@@ -70,13 +70,13 @@ export default function CharactersPage() {
               <div className="flex gap-2 flex-shrink-0">
                 <button
                   onClick={() => router.push(`/characters/${chara.id}/edit`)}
-                  className="text-xs bg-orange-100 text-orange-500 font-bold px-3 py-1 rounded-full hover:bg-orange-200"
+                  className="text-xs bg-gray-800 text-white font-bold px-3 py-1 rounded-lg hover:bg-gray-700 transition"
                 >
                   編集
                 </button>
                 <button
                   onClick={() => router.push(`/characters/${chara.id}`)}
-                  className="text-xs bg-gray-100 text-gray-500 font-bold px-3 py-1 rounded-full hover:bg-gray-200"
+                  className="text-xs border border-gray-300 text-gray-500 font-bold px-3 py-1 rounded-lg hover:bg-gray-50 transition"
                 >
                   見る
                 </button>

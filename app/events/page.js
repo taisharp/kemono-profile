@@ -59,7 +59,7 @@ export default function EventsPage() {
 })
 
   if (loading) return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="text-center">
         <div className="text-5xl mb-4 animate-bounce">🎪</div>
         <p className="text-gray-400">読み込み中...</p>
@@ -67,54 +67,59 @@ export default function EventsPage() {
     </div>
   )
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 py-10 px-4 text-gray-900">
-      <div className="max-w-lg mx-auto">
+return (
+    <div className="min-h-screen bg-gray-100 py-10 px-4 text-gray-900">
+      <div className="max-w-2xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">🎪 イベント一覧</h1>
+          <div>
+            <h1 className="text-2xl font-black text-gray-800">🎪 イベント一覧</h1>
+            <p className="text-gray-400 text-sm mt-1">参加するイベントを見つけよう</p>
+          </div>
           {user && (
             <button
               onClick={() => setShowForm(!showForm)}
-              className="bg-orange-400 text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-orange-500"
+              className="bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-700 transition flex-shrink-0"
             >
               ＋ 追加
             </button>
           )}
         </div>
-{/* 並べ替え */}
-<div className="flex gap-2 mb-4">
-  <button
-    onClick={() => setSortBy('date')}
-    className={`text-sm font-bold px-4 py-2 rounded-full transition ${
-      sortBy === 'date' ? 'bg-gray-800 text-white' : 'bg-white border border-gray-300 text-gray-500 hover:bg-gray-50'
-    }`}
-  >
-    📅 開催日が近い順
-  </button>
-  <button
-    onClick={() => setSortBy('new')}
-    className={`text-sm font-bold px-4 py-2 rounded-full transition ${
-      sortBy === 'new' ? 'bg-gray-800 text-white' : 'bg-white border border-gray-300 text-gray-500 hover:bg-gray-50'
-    }`}
-  >
-    🆕 新着順
-  </button>
-</div>
+
+        {/* 並べ替え */}
+        <div className="flex gap-2 mb-4">
+          <button
+            onClick={() => setSortBy('date')}
+            className={`text-sm font-bold px-4 py-2 rounded-full transition ${
+              sortBy === 'date' ? 'bg-gray-800 text-white' : 'bg-white border border-gray-300 text-gray-500 hover:bg-gray-50'
+            }`}
+          >
+            📅 開催日が近い順
+          </button>
+          <button
+            onClick={() => setSortBy('new')}
+            className={`text-sm font-bold px-4 py-2 rounded-full transition ${
+              sortBy === 'new' ? 'bg-gray-800 text-white' : 'bg-white border border-gray-300 text-gray-500 hover:bg-gray-50'
+            }`}
+          >
+            🆕 新着順
+          </button>
+        </div>
+
         {/* イベント追加フォーム */}
         {showForm && (
-          <div className="bg-white rounded-2xl shadow p-6 mb-6">
+          <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
             <h2 className="font-bold mb-4">イベントを追加</h2>
             {[
               { key: 'name', label: 'イベント名*', type: 'text' },
-              { key: 'event_date', label: '日付', type: 'date' },
-              { key: 'location', label: '場所', type: 'text' },
+              { key: 'event_date', label: '開催日', type: 'date' },
+              { key: 'location', label: '開催場所', type: 'text' },
               { key: 'url', label: 'URL', type: 'url' },
             ].map(f => (
               <div key={f.key} className="mb-3">
                 <label className="block text-sm font-medium mb-1">{f.label}</label>
                 <input
                   type={f.type}
-                  className="w-full border rounded-lg p-2"
+                  className="w-full border border-gray-300 rounded-lg p-2"
                   value={form[f.key]}
                   onChange={e => setForm({ ...form, [f.key]: e.target.value })}
                 />
@@ -123,14 +128,14 @@ export default function EventsPage() {
             <div className="mb-3">
               <label className="block text-sm font-medium mb-1">説明</label>
               <textarea
-                className="w-full border rounded-lg p-2 h-20"
+                className="w-full border border-gray-300 rounded-lg p-2 h-20"
                 value={form.description}
                 onChange={e => setForm({ ...form, description: e.target.value })}
               />
             </div>
             <button
               onClick={handleAdd}
-              className="w-full bg-orange-400 text-white rounded-lg p-3 font-bold hover:bg-orange-500"
+              className="w-full bg-gray-800 text-white rounded-lg p-3 font-bold hover:bg-gray-700 transition"
             >
               追加する
             </button>
@@ -139,42 +144,47 @@ export default function EventsPage() {
         )}
 
         {/* イベント一覧 */}
-        {events.length === 0 ? (
-          <div className="text-center py-20 text-gray-400">
+        {sortedEvents.length === 0 ? (
+          <div className="text-center py-20 text-gray-300">
             <p className="text-4xl mb-3">🎪</p>
-            <p>イベントがまだありません</p>
+            <p className="text-sm">イベントがまだありません</p>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {sortedEvents.map(event => (
               <div
                 key={event.id}
-                className="bg-white rounded-2xl shadow p-5 cursor-pointer hover:shadow-lg transition"
+                className="bg-white rounded-lg border border-gray-200 p-5 cursor-pointer hover:shadow-sm transition"
                 onClick={() => router.push(`/events/${event.id}`)}
               >
-                <div className="flex justify-between items-start">
+                <div className="flex justify-between items-start gap-3">
                   <div className="flex-1 min-w-0">
-                    <h2 className="font-bold text-lg truncate">{event.name}</h2>
-                    <div className="flex flex-wrap gap-2 mt-2">
+                    <h2 className="font-bold text-lg text-gray-800 truncate mb-3">{event.name}</h2>
+
+                    {/* 開催日・場所を目立たせる */}
+                    <div className="space-y-2">
                       {event.event_date && (
-                        <span className="text-xs bg-orange-100 text-orange-500 px-2 py-1 rounded-full">
-                          📅 {event.event_date}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="bg-gray-700 text-white text-xs font-bold px-2 py-1 rounded flex-shrink-0">📅 開催日</span>
+                          <span className="text-sm text-gray-700 font-medium">{event.event_date}</span>
+                        </div>
                       )}
                       {event.location && (
-                        <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full">
-                          📍 {event.location}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="bg-gray-700 text-white text-xs font-bold px-2 py-1 rounded flex-shrink-0">📍 場所</span>
+                          <span className="text-sm text-gray-700 font-medium truncate">{event.location}</span>
+                        </div>
                       )}
                     </div>
+
                     {event.description && (
-                      <p className="text-sm text-gray-500 mt-2 line-clamp-2">{event.description}</p>
+                      <p className="text-sm text-gray-400 mt-3 line-clamp-2">{event.description}</p>
                     )}
                   </div>
                   {user && event.created_by === user.id && (
                     <button
                       onClick={e => { e.stopPropagation(); handleDelete(event.id) }}
-                      className="text-red-400 hover:text-red-600 text-sm ml-3 flex-shrink-0"
+                      className="text-red-400 hover:text-red-600 text-sm flex-shrink-0"
                     >
                       削除
                     </button>
@@ -187,7 +197,7 @@ export default function EventsPage() {
 
         <button
           onClick={() => router.push('/')}
-          className="w-full mt-8 border border-orange-400 text-orange-400 rounded-2xl p-3 font-bold hover:bg-orange-50"
+          className="w-full mt-8 border border-gray-300 text-gray-500 rounded-lg p-3 font-bold hover:bg-white transition"
         >
           トップへ戻る
         </button>
